@@ -23,4 +23,4 @@ This project is part of the **5-Day AI Agents Intensive Course with Google (Nov 
    `
 
 
-For full documentation, see the README.md file.
+
