@@ -21,6 +21,58 @@ This project is part of the **5-Day AI Agents Intensive Course with Google (Nov 
    `ash
    python examples/example_usage.py
    `
+┌───────────────────┐
+│   User Request    │
+└─────────┬─────────┘
+          ▼
+┌───────────────────┐
+│ AI Agent Layer    │
+│ (Decision Engine) │
+└─────────┬─────────┘
+          ▼
+┌─────────────────────────────┐
+│     Workflow Engine         │
+│ (Step Orchestration, Error  │
+│  Handling, State Tracking)  │
+└─────────┬─────────┘
+          ▼
+┌─────────────────────────────┐
+│          Tools Layer         │
+│  (APIs, FileOps, Data, etc.) │
+└─────────┬─────────┘
+          ▼
+┌───────────────────┐
+│   Output / Logs    │
+└───────────────────┘
+
+.
+├── src/
+│   ├── agents/
+│   │   └── enterprise_agent.py
+│   ├── tools/
+│   │   └── enterprise_tools.py
+│   ├── workflows/
+│   │   └── workflow_engine.py
+│   └── utils/
+│
+├── config/
+│   └── settings.yaml
+│
+├── docs/
+│   └── design.md
+│
+├── examples/
+│   └── example_usage.py
+│
+└── tests/
+from agents.enterprise_agent import EnterpriseAgent
+
+agent = EnterpriseAgent()
+
+result = agent.run_workflow("generate_report")
+
+print(result)
+
 
 
 
