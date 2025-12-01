@@ -155,13 +155,25 @@ class EnterpriseAgent:
                 return {"action": "calculate", "error": str(e)}
         
         else:
-            # Default fallback
-            return {
-                "task": task_description,
-                "context": context,
-                "processed": True,
-                "note": "No specific handler found for this task type, generic processing applied."
-            }
+            # Use LLM for general tasks
+            try:
+                from src.tools.llm_client import LLMClient
+                llm = LLMClient() # Fixed: removed config_dict argument
+                response = llm.query(task_description)
+                return {
+                    "action": "llm_query",
+                    "output": response,
+                    "model": llm.model,
+                    "mode": "mock" if llm.use_mock else "real"
+                }
+            except Exception as e:
+                logger.error(f"LLM processing failed: {e}")
+                return {
+                    "task": task_description,
+                    "context": context,
+                    "processed": False,
+                    "error": str(e)
+                }
     
     def get_capabilities(self) -> List[str]:
         """Get list of agent capabilities."""

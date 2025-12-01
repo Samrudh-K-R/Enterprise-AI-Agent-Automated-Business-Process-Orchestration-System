@@ -149,3 +149,20 @@ class FileProcessor:
         logger.info(f"Writing file: {full_path}")
         full_path.write_text(content, encoding='utf-8')
 
+    def list_files(self, directory: str = ".", pattern: str = "*") -> List[str]:
+        """
+        List files in a directory.
+        
+        Args:
+            directory: Directory to list (relative to base_path)
+            pattern: Glob pattern to filter files
+            
+        Returns:
+            List of file paths
+        """
+        dir_path = self.base_path / directory
+        if not dir_path.exists():
+             raise FileNotFoundError(f"Directory not found: {dir_path}")
+             
+        return [str(p.relative_to(self.base_path)) for p in dir_path.glob(pattern) if p.is_file()]
+
