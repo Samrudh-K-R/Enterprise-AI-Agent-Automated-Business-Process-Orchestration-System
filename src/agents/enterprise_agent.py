@@ -132,13 +132,36 @@ class EnterpriseAgent:
         Returns:
             Task result
         """
-        # Placeholder implementation
-        # This should be customized based on specific enterprise needs
-        return {
-            "task": task_description,
-            "context": context,
-            "processed": True
-        }
+        # Basic implementation of task processing
+        task_lower = task_description.lower()
+        
+        if "echo" in task_lower:
+            return {"action": "echo", "output": task_description.replace("echo", "").strip()}
+        
+        elif "reverse" in task_lower:
+             text_to_reverse = task_description.replace("reverse", "").strip()
+             return {"action": "reverse", "output": text_to_reverse[::-1]}
+             
+        elif "calculate" in task_lower:
+            try:
+                # WARNING: eval is dangerous in production, using for simple demo only
+                # In a real enterprise agent, use a safe math parser
+                expression = task_description.replace("calculate", "").strip()
+                # Simple safety check - only allow digits and basic math operators
+                if not all(c.isdigit() or c.isspace() or c in "+-*/()." for c in expression):
+                     raise ValueError("Unsafe characters in expression")
+                return {"action": "calculate", "expression": expression, "result": eval(expression)}
+            except Exception as e:
+                return {"action": "calculate", "error": str(e)}
+        
+        else:
+            # Default fallback
+            return {
+                "task": task_description,
+                "context": context,
+                "processed": True,
+                "note": "No specific handler found for this task type, generic processing applied."
+            }
     
     def get_capabilities(self) -> List[str]:
         """Get list of agent capabilities."""

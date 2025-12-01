@@ -5,6 +5,15 @@ This script demonstrates how to initialize and use the Enterprise Agent
 for various business process automation tasks.
 """
 
+import sys
+import os
+from pathlib import Path
+
+# Add the project root to sys.path
+project_root = str(Path(__file__).parent.parent)
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
 from src.agents.enterprise_agent import EnterpriseAgent
 from src.workflows.workflow_engine import WorkflowEngine, Workflow
 
